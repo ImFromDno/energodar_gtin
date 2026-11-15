@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Поиск GTIN — Честный ЗНАК</title>
+    <title>База GTIN — Tom studio</title>
     <style>
         :root {
             --bg: #f4f6f9;
@@ -13,12 +13,8 @@
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
             --border: #e2e8f0;
-            --green-bg: #dcfce7;
-            --green-text: #166534;
-            --yellow-bg: #fef9c3;
-            --yellow-text: #854d0e;
-            --red-bg: #fee2e2;
-            --red-text: #991b1b;
+            --studio-bg: #0f172a;
+            --studio-accent: #38bdf8;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,13 +31,46 @@
             margin: 0 auto;
         }
 
+        /* Заметная фирменная верхняя плашка Tom studio */
+        .studio-banner {
+            background: var(--studio-bg);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+        }
+
+        .studio-logo {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .studio-logo span {
+            color: var(--studio-accent);
+        }
+
+        .studio-tag {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
         header {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         h1 { font-size: 1.5rem; font-weight: 700; }
@@ -83,7 +112,18 @@
             border-radius: 8px;
             background: #fff;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        select {
+            min-width: 180px;
+            border-color: #cbd5e1;
+        }
+
+        select:focus, button.refresh-btn:focus {
+            outline: none;
+            border-color: var(--primary);
         }
 
         button.refresh-btn:hover {
@@ -137,7 +177,7 @@
             white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .copy-btn {
@@ -147,25 +187,13 @@
             padding: 6px 12px;
             border-radius: 6px;
             font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
             transition: background 0.15s;
         }
 
         .copy-btn:hover { background: var(--primary-hover); }
         .copy-btn.copied { background: #16a34a; }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .badge-ok { background: var(--green-bg); color: var(--green-text); }
-        .badge-warn { background: var(--yellow-bg); color: var(--yellow-text); }
-        .badge-err { background: var(--red-bg); color: var(--red-text); }
 
         .empty-state {
             text-align: center;
@@ -177,7 +205,7 @@
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: #1e293b;
+            background: #0f172a;
             color: #fff;
             padding: 12px 20px;
             border-radius: 8px;
@@ -186,7 +214,7 @@
             transform: translateY(10px);
             transition: all 0.2s;
             pointer-events: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         .toast.show { opacity: 1; transform: translateY(0); }
     </style>
@@ -194,18 +222,23 @@
 <body>
 
 <div class="container">
+    <div class="studio-banner">
+        <div class="studio-logo">Tom <span>studio</span></div>
+        <div class="studio-tag">Система поиска GTIN • Честный ЗНАК</div>
+    </div>
+
     <header>
-        <h1>База GTIN (Честный ЗНАК)</h1>
+        <h1>Поиск кодов маркировки</h1>
         <button class="refresh-btn" onclick="loadData()" title="Обновить данные из Google Таблицы">↻ Обновить базу</button>
     </header>
 
     <div class="controls">
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Поиск по названию (напр. СДУ 100) или GTIN..." autofocus>
+            <input type="text" id="searchInput" placeholder="Поиск по названию товара или GTIN..." autofocus>
         </div>
-        <select id="statusFilter">
-            <option value="Опубликована" selected>Только «Опубликована»</option>
-            <option value="ALL">Все статусы</option>
+        <select id="dbSelect" onchange="changeDatabase(this.value)" title="Выбор компании">
+            <option value="belsvet" selected>Белсвет</option>
+            <option value="energodar">Энергодар</option>
         </select>
     </div>
 
@@ -218,13 +251,12 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 240px;">Код товара (GTIN)</th>
-                    <th style="width: 190px;">Статус карточки</th>
+                    <th style="width: 260px;">GTIN</th>
                     <th>Полное наименование товара</th>
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <tr><td colspan="3" class="empty-state">Загружаем данные из Google Таблицы...</td></tr>
+                <tr><td colspan="2" class="empty-state">Загружаем данные из Google Таблицы...</td></tr>
             </tbody>
         </table>
     </div>
@@ -233,9 +265,18 @@
 <div id="toast" class="toast">GTIN скопирован!</div>
 
 <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzbF6Nh7JNGqGf4SyrC50Kdkc7lAiefpbFfq55oi1xKa6lnbyR_baaP-TiWvmfnDSBUfSONNYFbzFs/pub?output=csv';
+    const DATABASES = {
+        'belsvet': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTF_e2qsgUoRP_k6TZp0iP4Ybvy8yhVpr6JPHqmO0LpSFsvj0vIqLTLWdb8j_3dqWcdxdas0h8JhHMY/pub?gid=0&single=true&output=csv',
+        'energodar': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTF_e2qsgUoRP_k6TZp0iP4Ybvy8yhVpr6JPHqmO0LpSFsvj0vIqLTLWdb8j_3dqWcdxdas0h8JhHMY/pub?gid=21252746&single=true&output=csv'
+    };
 
+    let currentDbKey = 'belsvet';
     let products = [];
+
+    function changeDatabase(key) {
+        currentDbKey = key;
+        loadData();
+    }
 
     function parseCSV(text) {
         const rows = [];
@@ -277,20 +318,21 @@
     async function loadData() {
         const tbody = document.getElementById('tableBody');
         const counter = document.getElementById('counter');
+        const csvUrl = DATABASES[currentDbKey];
 
         try {
-            counter.textContent = 'Обновление...';
-            const cacheBuster = (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now();
-            const response = await fetch(CSV_URL + cacheBuster);
+            counter.textContent = 'Загрузка базы...';
+            const cacheBuster = (csvUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
+            const response = await fetch(csvUrl + cacheBuster);
             if (!response.ok) throw new Error('Ошибка сети: ' + response.status);
             
             const csvText = await response.text();
             const rows = parseCSV(csvText);
 
+            // Читаем 2 колонки: row[0] = GTIN, row[1] = Полное наименование товара
             products = rows.slice(1).map(row => ({
                 gtin: row[0] || '',
-                status: row[1] || '',
-                name: row[2] || ''
+                name: row[1] || ''
             })).filter(item => item.gtin || item.name);
 
             const now = new Date();
@@ -299,32 +341,20 @@
             
             renderTable();
         } catch (err) {
-            tbody.innerHTML = `<tr><td colspan="3" class="empty-state">Ошибка загрузки таблицы: ${err.message}. Проверь, что таблица опубликована в интернет в формате CSV.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="2" class="empty-state">Ошибка загрузки таблицы: ${err.message}. Проверь настройки публикации листа.</td></tr>`;
             counter.textContent = 'Ошибка';
         }
     }
 
-    function getBadgeClass(status) {
-        const s = status.toLowerCase();
-        if (s.includes('опубликована')) return 'badge-ok';
-        if (s.includes('ожидает')) return 'badge-warn';
-        return 'badge-err';
-    }
-
     function renderTable() {
         const query = document.getElementById('searchInput').value.toLowerCase().trim();
-        const statusFilter = document.getElementById('statusFilter').value;
         const tbody = document.getElementById('tableBody');
         const counter = document.getElementById('counter');
 
         const searchTerms = query.split(/\s+/).filter(Boolean);
 
         const filtered = products.filter(item => {
-            if (statusFilter !== 'ALL' && item.status !== statusFilter) {
-                return false;
-            }
             if (searchTerms.length === 0) return true;
-
             const haystack = `${item.gtin} ${item.name}`.toLowerCase();
             return searchTerms.every(term => haystack.includes(term));
         });
@@ -332,7 +362,7 @@
         counter.textContent = `Найдено позиций: ${filtered.length} из ${products.length}`;
 
         if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Ничего не найдено по вашему запросу</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="2" class="empty-state">Ничего не найдено по вашему запросу</td></tr>';
             return;
         }
 
@@ -344,7 +374,6 @@
                         <button class="copy-btn" onclick="copyGtin('${escapeHtml(item.gtin)}', this)">Копировать</button>
                     </div>
                 </td>
-                <td><span class="badge ${getBadgeClass(item.status)}">${escapeHtml(item.status)}</span></td>
                 <td>${escapeHtml(item.name)}</td>
             </tr>
         `).join('');
@@ -375,8 +404,8 @@
     }
 
     document.getElementById('searchInput').addEventListener('input', renderTable);
-    document.getElementById('statusFilter').addEventListener('change', renderTable);
 
+    // Загружаем данные при открытии страницы
     loadData();
 </script>
 
