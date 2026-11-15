@@ -31,7 +31,6 @@
             margin: 0 auto;
         }
 
-        /* Заметная фирменная верхняя плашка Tom studio */
         .studio-banner {
             background: var(--studio-bg);
             color: #ffffff;
@@ -180,20 +179,38 @@
             gap: 12px;
         }
 
+        /* Кнопка с иконкой копирования */
         .copy-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
+            background: #f1f5f9;
+            color: var(--muted);
+            border: 1px solid #cbd5e1;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: all 0.15s ease;
         }
 
-        .copy-btn:hover { background: var(--primary-hover); }
-        .copy-btn.copied { background: #16a34a; }
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .copy-btn.copied {
+            background: #16a34a;
+            color: white;
+            border-color: #16a34a;
+        }
+
+        .copy-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
 
         .empty-state {
             text-align: center;
@@ -251,7 +268,7 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 260px;">GTIN</th>
+                    <th style="width: 220px;">GTIN</th>
                     <th>Полное наименование товара</th>
                 </tr>
             </thead>
@@ -272,6 +289,10 @@
 
     let currentDbKey = 'belsvet';
     let products = [];
+
+    // SVG иконки для кнопки копирования
+    const iconCopy = `<svg viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>`;
+    const iconCheck = `<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>`;
 
     function changeDatabase(key) {
         currentDbKey = key;
@@ -329,7 +350,6 @@
             const csvText = await response.text();
             const rows = parseCSV(csvText);
 
-            // Читаем 2 колонки: row[0] = GTIN, row[1] = Полное наименование товара
             products = rows.slice(1).map(row => ({
                 gtin: row[0] || '',
                 name: row[1] || ''
@@ -371,7 +391,9 @@
                 <td>
                     <div class="gtin-cell">
                         <span>${escapeHtml(item.gtin)}</span>
-                        <button class="copy-btn" onclick="copyGtin('${escapeHtml(item.gtin)}', this)">Копировать</button>
+                        <button class="copy-btn" onclick="copyGtin('${escapeHtml(item.gtin)}', this)" title="Копировать GTIN">
+                            ${iconCopy}
+                        </button>
                     </div>
                 </td>
                 <td>${escapeHtml(item.name)}</td>
@@ -381,8 +403,7 @@
 
     function copyGtin(gtin, btn) {
         navigator.clipboard.writeText(gtin).then(() => {
-            const originalText = btn.textContent;
-            btn.textContent = 'Скопировано!';
+            btn.innerHTML = iconCheck;
             btn.classList.add('copied');
             
             const toast = document.getElementById('toast');
@@ -390,7 +411,7 @@
             toast.classList.add('show');
 
             setTimeout(() => {
-                btn.textContent = originalText;
+                btn.innerHTML = iconCopy;
                 btn.classList.remove('copied');
                 toast.classList.remove('show');
             }, 1500);
@@ -405,7 +426,6 @@
 
     document.getElementById('searchInput').addEventListener('input', renderTable);
 
-    // Загружаем данные при открытии страницы
     loadData();
 </script>
 
