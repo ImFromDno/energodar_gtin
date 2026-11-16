@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ЗАМЕНИТЕ ИМЯ ХУДОЖНИКА В ЗАГОЛОВКЕ ВКЛАДКИ -->
+  <title>Елена Смирнова — Художник | Портфолио работ</title>
+  <meta name="description" content="Портфолио художника: живопись, акварель, графика и картины на заказ." />
+
+  <!-- Подключение красивых галерейных шрифтов -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #FAF9F6;      /* Тёплый оттенок холста */
+      --bg-secondary: #F2EFE9;    /* Мягкий бежевый для карточек и блоков */
+      --text-main: #1F1E1C;       /* Глубокий графитовый текст */
+      --text-muted: #6B665F;      /* Приглушённый серый для подписей */
+      --accent: #8C6D46;          /* Благородный охристо-бронзовый акцент */
+      --accent-hover: #6E5434;
+      --border: #E5E0D8;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Навигация */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 249, 246, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .logo {
+      font-family: var(--font-serif);
+      font-size: 1.65rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 28px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.25s ease;
+    }
+
+    nav a:hover {
+      color: var(--text-main);
+    }
+
+    /* Общие контейнеры и заголовки */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 84px 0;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 48px;
+      font-size: 0.98rem;
+    }
+
+    /* Главный экран (Hero) */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.6rem, 6vw, 4.4rem);
+      font-weight: 400;
+      line-height: 1.12;
+      max-width: 820px;
+      margin: 0 auto 24px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      max-width: 580px;
+      margin: 0 auto 36px;
+      font-size: 1.05rem;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--text-main);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: var(--text-main);
+      color: var(--bg-primary);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--text-main);
+      color: var(--bg-primary);
+    }
+
+    /* Фильтры галереи */
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 9px 20px;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 2px;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--text-main);
+      color: var(--text-main);
+      background-color: var(--bg-secondary);
+    }
+
+    /* Сетка картин */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 36px;
+    }
+
+    .art-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .art-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(31, 30, 28, 0.06);
+    }
+
+    .art-card.hidden {
+      display: none;
+    }
+
+    .art-image-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background-color: var(--bg-secondary);
+    }
+
+    .art-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+
+    .art-card:hover .art-image-wrap img {
+      transform: scale(1.03);
+    }
+
+    .art-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(250, 249, 246, 0.92);
+      padding: 5px 11px;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .art-info {
+      padding: 20px 22px 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .art-title {
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .art-meta {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .art-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    .art-price {
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .art-zoom-hint {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    /* Блок «Об авторе» */
+    .about-section {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .about-photo {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background-color: #E5E0D8;
+    }
+
+    .about-content h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 3.5vw, 2.7rem);
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .about-content p {
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .about-highlights {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .highlight-item strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    .highlight-item span {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    /* Как заказать (этапы работы) */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 28px;
+    }
+
+    .step-card {
+      padding: 32px 28px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+    }
+
+    .step-num {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .step-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .step-card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    /* Контакты */
+    .contact-box {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 54px 32px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .contact-direct {
+      margin-top: 24px;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .contact-direct a {
+      color: var(--text-main);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Модальное окно (Лайтбокс для просмотра картины во весь экран) */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(20, 19, 18, 0.88);
+      padding: 24px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-dialog {
+      background: var(--bg-primary);
+      max-width: 980px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      position: relative;
+      border: 1px solid var(--border);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      width: 38px;
+      height: 38px;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--text-main);
+      z-index: 10;
+    }
+
+    .lightbox-img-box {
+      background: #141312;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 360px;
+    }
+
+    .lightbox-img-box img {
+      max-width: 100%;
+      max-height: 82vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lightbox-details {
+      padding: 40px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .lightbox-details h3 {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .lightbox-meta {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lightbox-desc {
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+      color: var(--text-main);
+    }
+
+    .lightbox-status {
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 24px;
+      font-size: 1.05rem;
+    }
+
+    /* Адаптивность для смартфонов */
+    @media (max-width: 820px) {
+      .about-grid,
+      .lightbox-dialog {
+        grid-template-columns: 1fr;
+      }
+
+      .lightbox-details {
+        padding: 28px 22px;
+      }
+
+      .about-highlights {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      nav ul {
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= ШАПКА САЙТА ================= -->
+  <header>
+    <div class="nav-container">
+      <!-- ЗАМЕНИТЕ НА ИМЯ И ФАМИЛИЮ ХУДОЖНИКА -->
+      <a href="#" class="logo">Елена Смирнова</a>
+      <nav>
+        <ul>
+          <li><a href="#gallery">Работы</a></li>
+          <li><a href="#about">Об авторе</a></li>
+          <li><a href="#process">На заказ</a></li>
+          <li><a href="#contacts">Контакты</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= ГЛАВНЫЙ ЭКРАН ================= -->
+  <section class="hero">
+    <div class="container">
+      <span class="hero-tag">Живопись • Акварель • Графика</span>
+      <!-- ЗАМЕНИТЕ ЗАГОЛОВОК И ОПИСАНИЕ ПОД СТИЛЬ ХУДОЖНИКА -->
+      <h1>Картины, наполняющие пространство светом и тишиной</h1>
+      <p>Авторские работы маслом и акварелью в наличии, а также создание картин и портретов на заказ под ваш интерьер.</p>
+      <div class="btn-group">
+        <a href="#gallery" class="btn btn-primary">Смотреть галерею</a>
+        <a href="#contacts" class="btn btn-outline">Обсудить заказ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ГАЛЕРЕЯ РАБОТ ================= -->
+  <section id="gallery">
+    <div class="container">
+      <h2 class="section-title">Избранные работы</h2>
+      <p class="section-subtitle">Нажмите на любую картину, чтобы рассмотреть детали, узнать размеры и историю создания.</p>
+
+      <!-- Кнопки фильтрации по категориям -->
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Все работы</button>
+        <button class="filter-btn" data-filter="oil">Масло</button>
+        <button class="filter-btn" data-filter="watercolor">Акварель</button>
+        <button class="filter-btn" data-filter="graphics">Графика</button>
+      </div>
+
+      <!-- СЕТКА КАРТИН
+           ИНСТРУКЦИЯ ПО ЗАМЕНЕ ФОТО:
+           1. Положите фотографии картин в папку рядом с этим файлом (например, в папку images/).
+           2. В атрибуте src="..." замените ссылку на путь к вашему фото, например: src="images/work1.jpg"
+           3. Отредактируйте название, материалы, размер, описание и цену в атрибутах data-... и внутри карточки.
+      -->
+      <div class="gallery-grid">
+
+        <!-- КАРТИНА 1 -->
+        <article class="art-card"
+          data-category="oil"
+          data-title="Утренний туман над рекой"
+          data-meta="Холст, масло • 60 × 80 см • 2025 г."
+          data-desc="Написана с натуры на рассвете. Мягкие переходы тёплого утреннего света и прохладной дымки над водой. Оформлена в деревянный багет, готова к размещению."
+          data-status="В наличии — 28 000 ₽">
+          <div class="art-image-wrap">
+            <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=900&q=80" alt="Утренний туман над рекой" loading="lazy">
+            <span class="art-badge">В наличии</span>
+          </div>
+          <div class="art-info">
+            <div>
+              <h3 class="art-title">Утренний туман над рекой</h3>
+              <p class="art-meta">Холст, масло • 60 × 80 см</p>
+            </div>
+            <div class="art-footer">
+              <span class="art-price">28 000 ₽</span>
+              <span class="art-zoom-hint">Подробнее →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- КАРТИНА 2 -->
+        <article class="art-card"
+          data-category="watercolor"
+          data-title="Пионы после дождя"
+          data-meta="Хлопковая бумага 300 г/м², акварель • 40 × 50 см • 2025 г."
+          data-desc="Воздушная акварель в технике по-сырому. Использованы светостойкие пигменты. Работа продаётся без рамы или с оформлением в паспарту по согласованию."
+          data-status="В наличии — 14 500 ₽">
+          <div class="art-image-wrap">
+            <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=900&q=80" alt="Пионы после дождя" loading="lazy">
+            <span class="art-badge">В наличии</span>
+          </div>
+          <div class="art-info">
+            <div>
+              <h3 class="art-title">Пионы после дождя</h3>
+              <p class="art-meta">Бумага, акварель • 40 × 50 см</p>
+            </div>
+            <div class="art-footer">
+              <span class="art-price">14 500 ₽</span>
+              <span class="art-zoom-hint">Подробнее →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- КАРТИНА 3 -->
+        <article class="art-card"
+          data-category="oil"
+          data-title="Тихий вечер в старом городе"
+          data-meta="Холст на подрамнике, масло, мастихин • 70 × 90 см • 2024 г."
+          data-desc="Фактурная пастозная живопись с глубокими тёплыми тенями и бликами заходящего солнца. Находится в частной коллекции, возможен авторский повтор в нужном размере."
+          data-status="Частная коллекция (возможен повтор на заказ)">
+          <div class="art-image-wrap">
+            <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=900&q=80" alt="Тихий вечер в старом городе" loading="lazy">
+            <span class="art-badge">На заказ</span>
+          </div>
+          <div class="art-info">
+            <div>
+              <h3 class="art-title">Тихий вечер в старом городе</h3>
+              <p class="art-meta">Холст, масло • 70 × 90 см</p>
+            </div>
+            <div class="art-footer">
+              <span class="art-price">Под заказ</span>
+              <span class="art-zoom-hint">Подробнее →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- КАРТИНА 4 -->
+        <article class="art-card"
+          data-category="graphics"
+          data-title="Старая олива"
+          data-meta="Тонированная бумага, уголь, сангина • 35 × 45 см • 2025 г."
+          data-desc="Графический этюд, выполненный натуральным углём и сангиной. Закреплён профессиональным фиксативом."
+          data-status="В наличии — 9 500 ₽">
+          <div class="art-image-wrap">
+            <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80" alt="Старая олива" loading="lazy">
+            <span class="art-badge">В наличии</span>
+          </div>
+          <div class="art-info">
+            <div>
+              <h3 class="art-title">Старая олива</h3>
+              <p class="art-meta">Бумага, уголь, сангина • 35 × 45 см</p>
+            </div>
+            <div class="art-footer">
+              <span class="art-price">9 500 ₽</span>
+              <span class="art-zoom-hint">Подробнее →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- КАРТИНА 5 -->
+        <article class="art-card"
+          data-category="watercolor"
+          data-title="Морской бриз"
+          data-meta="Хлопок 100%, акварель • 50 × 70 см • 2026 г."
+          data-desc="Свежий морской пейзаж, написанный на пленэре. Передаёт ощущение солёного ветра и прозрачной воды."
+          data-status="В наличии — 18 000 ₽">
+          <div class="art-image-wrap">
+            <img src="https://images.unsplash.com/photo-1582201942988-13e60e4556ee?auto=format&fit=crop&w=900&q=80" alt="Морской бриз" loading="lazy">
+            <span class="art-badge">В наличии</span>
+          </div>
+          <div class="art-info">
+            <div>
+              <h3 class="art-title">Морской бриз</h3>
+              <p class="art-meta">Хлопок, акварель • 50 × 70 см</p>
+            </div>
+            <div class="art-footer">
+              <span class="art-price">18 000 ₽</span>
+              <span class="art-zoom-hint">Подробнее →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- КАРТИНА 6 -->
+        <article class="art-card"
+          data-category="oil"
+          data-title="Абстракция «Золото осени»"
+          data-meta="Холст, масло, поталь • 80 × 100 см • 2026 г."
+          data-desc="Интерьерная работа с использованием золотой потали, которая мягко переливается при вечернем освещении. Торцы прокрашены, можно вешать без рамы."
+          data-status="В наличии — 35 000 ₽">
+          <div class="art-image-wrap">
+            <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=80" alt="Абстракция Золото осени" loading="lazy">
+            <span class="art-badge">В наличии</span>
+          </div>
+          <div class="art-info">
+            <div>
+              <h3 class="art-title">Абстракция «Золото осени»</h3>
+              <p class="art-meta">Холст, масло, поталь • 80 × 100 см</p>
+            </div>
+            <div class="art-footer">
+              <span class="art-price">35 000 ₽</span>
+              <span class="art-zoom-hint">Подробнее →</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ОБ АВТОРЕ ================= -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <div class="about-grid">
+        <!-- ЗАМЕНИТЕ ФОТО ХУДОЖНИКА -->
+        <img class="about-photo" src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80" alt="Портрет художника в мастерской" loading="lazy">
+        <div class="about-content">
+          <span class="hero-tag">Об авторе</span>
+          <h2>Искусство, рождённое из наблюдения за природой</h2>
+          <!-- ЗАМЕНИТЕ БИОГРАФИЮ ХУДОЖНИКА -->
+          <p>Здравствуйте! Меня зовут Елена. Я профессиональный художник, работаю в техниках масляной живописи, акварели и классической графики.</p>
+          <p>В своих работах я стремлюсь передать живое состояние света, фактуру времени и спокойную гармонию, к которой хочется возвращаться взглядом каждый день. Пишу как камерные этюды с натуры, так и крупные интерьерные полотна на заказ.</p>
+          <p>Мои картины находятся в частных коллекциях в России и Европе. Каждая работа бережно упаковывается и отправляется в любой город.</p>
+
+          <div class="about-highlights">
+            <div class="highlight-item">
+              <strong>12+ лет</strong>
+              <span>художественной практики</span>
+            </div>
+            <div class="highlight-item">
+              <strong>150+</strong>
+              <span>работ в частных коллекциях</span>
+            </div>
+            <div class="highlight-item">
+              <strong>Доставка</strong>
+              <span>бережная упаковка по всей стране</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= КАК ЗАКАЗАТЬ ================= -->
+  <section id="process">
+    <div class="container">
+      <h2 class="section-title">Картина на заказ</h2>
+      <p class="section-subtitle">Если вы хотите картину в определённой цветовой гамме или по вашей фотографии, работа строится в три простых шага:</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="step-num">01</span>
+          <h3>Обсуждение идеи</h3>
+          <p>Вы присылаете пожелания, фото интерьера или референс. Вместе подбираем размер, технику (масло, акварель) и цветовую палитру.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">02</span>
+          <h3>Эскиз и процесс</h3>
+          <p>Я готовлю композиционный эскиз, согласовываю его с вами и приступаю к работе. На ключевых этапах отправляю фото и видео процесса.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">03</span>
+          <h3>Оформление и доставка</h3>
+          <p>Готовая картина покрывается защитным лаком, при необходимости оформляется в багет и надёжно упаковывается для передачи или отправки.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= КОНТАКТЫ ================= -->
+  <section id="contacts">
+    <div class="container">
+      <div class="contact-box">
+        <span class="hero-tag">Связаться со мной</span>
+        <h2 class="section-title">Буду рада ответить на вопросы</h2>
+        <p style="color: var(--text-muted); max-width: 520px; margin: 0 auto;">
+          Напишите в удобный мессенджер, чтобы уточнить наличие картины, запросить дополнительные фото в интерьере или обсудить заказ.
+        </p>
+
+        <!-- ЗАМЕНИТЕ ССЫЛКИ НА РЕАЛЬНЫЕ КОНТАКТЫ ХУДОЖНИКА -->
+        <div class="contact-links">
+          <a href="https://t.me/username" target="_blank" rel="noopener" class="btn btn-primary">Написать в Telegram</a>
+          <a href="https://wa.me/79000000000" target="_blank" rel="noopener" class="btn btn-outline">WhatsApp</a>
+          <a href="https://vk.com/username" target="_blank" rel="noopener" class="btn btn-outline">ВКонтакте</a>
+        </div>
+
+        <div class="contact-direct">
+          Телефон: <a href="tel:+79000000000">+7 (900) 000-00-00</a> &nbsp;•&nbsp;
+          Почта: <a href="mailto:artist@example.com">artist@example.com</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © 2026 Елена Смирнова. Все права на изображения защищены.
+    </div>
+  </footer>
+
+  <!-- ================= МОДАЛЬНОЕ ОКНО ПРОСМОТРА КАРТИНЫ ================= -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-dialog">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button>
+      <div class="lightbox-img-box">
+        <img id="lightboxImg" src="" alt="">
+      </div>
+      <div class="lightbox-details">
+        <h3 id="lightboxTitle"></h3>
+        <div class="lightbox-meta" id="lightboxMeta"></div>
+        <p class="lightbox-desc" id="lightboxDesc"></p>
+        <div class="lightbox-status" id="lightboxStatus"></div>
+        <a href="#contacts" class="btn btn-primary" id="lightboxOrderBtn">Узнать подробнее / Заказать</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= СКРИПТЫ ФИЛЬТРАЦИИ И ПРОСМОТРА ================= -->
+  <script>
+    // Фильтрация картин по категориям
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const artCards = document.querySelectorAll('.art-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        artCards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Модальное окно (Лайтбокс)
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxMeta = document.getElementById('lightboxMeta');
+    const lightboxDesc = document.getElementById('lightboxDesc');
+    const lightboxStatus = document.getElementById('lightboxStatus');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxOrderBtn = document.getElementById('lightboxOrderBtn');
+
+    artCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const img = card.querySelector('img');
+        lightboxImg.src = img.src;
+        lightboxImg.alt = card.dataset.title;
+        lightboxTitle.textContent = card.dataset.title;
+        lightboxMeta.textContent = card.dataset.meta;
+        lightboxDesc.textContent = card.dataset.desc;
+        lightboxStatus.textContent = card.dataset.status;
+
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxOrderBtn.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+        closeLightbox();
+      }
+    });
+  </script>
+</body>
+</html>
